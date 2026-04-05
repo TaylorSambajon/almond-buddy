@@ -1,0 +1,32 @@
+const almond = new newAlmond();
+  almond.x = x_axis;
+  almond.y = y_axis;
+  almond.pivot.set(0);
+
+  app.stage.addChild(almond);
+
+  app.ticker.add(() => {
+    
+    const mouse = app.renderer.events.pointer;
+
+    if (mouse.x >= x_axis){
+
+      almond.changeColor(0xdef0cc);
+
+      if (mouse.y >= y_axis){
+        almond.changeColor(0xcaed01);
+      } else {
+        almond.changeColor(0x745eed);
+      }
+    } else if (mouse.x < x_axis){
+      almond.changeColor(0x43f9dd);
+
+      if (mouse.y >= y_axis){
+        almond.changeColor(0xdd5381);
+      } else {
+        almond.changeColor(0xc3aa10);
+      }
+
+    }
+
+  });

@@ -1,4 +1,8 @@
-import { Application, Graphics } from 'pixi.js'
+import { 
+          Assets, 
+          Application,
+          FederatedPointerEvent } from 'pixi.js'
+import { Character } from './buddy.ts'
 import './style.css'
 
 const app = new Application();
@@ -7,7 +11,7 @@ async function setup() {
 
   await app.init({ 
 
-    background: '#6d83c0', 
+    background: '#345021', 
     resizeTo: window,
     resolution: window.devicePixelRatio || 1,
     autoDensity: true
@@ -16,26 +20,61 @@ async function setup() {
 
   document.body.appendChild(app.canvas);
 
-  const almond = new Graphics().circle(0, 0, 50).fill('#c0c0c1'); //blue fill, maybe we might have to change this lmao
+  const daSheet = await Assets.load('/assets/buddy-sheet.json');
+  console.log("LOADED: ", daSheet);
 
-  almond.x = app.screen.width / 2;
-  almond.y = app.screen.height / 2;
-  almond.pivot.set(0);
+  const x_axis = app.screen.width / 2;
+  const y_axis = app.screen.height /2;
+  const center = 70;
+  const near = 200;
+  
+  const almond = new Character(daSheet);
+
+  almond.scale.set(0.3);
+  almond.x = x_axis;
+  almond.y = y_axis;
 
   app.stage.addChild(almond);
+  app.stage.eventMode = 'static';
+  app.stage.hitArea = app.screen;
 
-  app.ticker.add(() => {
+  app.stage.on('globalpointermove', (event: FederatedPointerEvent) => {
+    const { x, y } = event.global;
     
-    const mouse = app.renderer.events.pointer;
-    const speed = 0.1;
+    if (x > x_axis) {
 
-    let nextX = almond.x += (mouse.x - almond.x) * speed;
-    let nextY = almond.y += (mouse.y - almond.y) * speed;
+      if (y < y_axis + center){
 
-    const radius = 200;
+        if (x < x_axis + center){
+          almond.buddyLook('right0.png');
+        } else if (x < x_axis + near){
+          almond.buddyLook('right1.png');
+        } else {
+          almond.buddyLook('right2.png');
+        }
 
-    almond.x = Math.max(radius, Math.min(nextX, app.screen.width - radius));
-    almond.y = Math.max(radius, Math.min(nextY, app.screen.height - radius));
+      } else {
+        almond.buddyLook('right_down.png');
+      }
+
+    }
+
+    if (x < x_axis) {
+
+      if (y < y_axis + center){
+
+        if (x > x_axis - center){
+          almond.buddyLook('left0.png');
+        } else if (x > x_axis - near){
+          almond.buddyLook('left1.png');
+        } else {
+          almond.buddyLook('left2.png');
+        }
+
+      } else {
+        almond.buddyLook('left_down.png');
+      }
+    }
 
   });
 }
