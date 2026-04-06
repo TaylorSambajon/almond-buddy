@@ -30,7 +30,7 @@ async function setup() {
   
   const almond = new Character(daSheet);
 
-  almond.scale.set(0.3);
+  almond.scale.set(0.5);
   almond.x = x_axis;
   almond.y = y_axis;
 
