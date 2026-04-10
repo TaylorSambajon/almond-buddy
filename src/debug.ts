@@ -10,9 +10,9 @@ export class RegionMap extends Graphics {
 
     //draws a slice in the region map and fills it in
     public drawSlice(x: number, y: number, sDeg: number, eDeg: number, color: number){
+        this.clear();
         let degree1 = sDeg * (Math.PI / 180);
         let degree2 = eDeg * (Math.PI / 180);
-        this.clear();
         console.log("Da degrees in question, start:", degree1, ", end: ", degree2);
 
         //begin the slice and place it at the center of the screen
@@ -44,8 +44,11 @@ export class RegionMap extends Graphics {
         this.beginPath();
         this.moveTo(startX,startY);
 
+        this.lineTo(startX, endY);
         this.lineTo(endX, endY);
-        this.fill({color, alpha: 0.1});
+        this.lineTo(endX,startY);
+        this.fill({color, alpha: 0.4});
+        this.stroke({width: 2, color, alpha: 0.8});
     }
 
 }

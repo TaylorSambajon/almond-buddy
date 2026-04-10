@@ -46,15 +46,18 @@ async function setup() {
   app.stage.hitArea = app.screen;
 
   //place overlay on top of buddy
-  const region_overlay = new RegionMap();
-  app.stage.addChild(region_overlay);
+  const region_circle = new RegionMap();
+  const region_grid = new RegionMap();
+  app.stage.addChild(region_circle);
+  app.stage.addChild(region_grid);
 
   //Buddy looking math
   app.stage.on('globalpointermove', (event: FederatedPointerEvent) => {
     const { x, y } = event.global;
     
     //DRAW DA DEBUGGER
-    region_overlay.drawSlice(almond.x, almond.y, 0, -20, 0xd3f0cc);
+    region_circle.drawSlice(almond.x, almond.y, 0, -20, 0xd3f0cc);
+    region_grid.drawGrid(0,0, x_axis - near, y_axis - near, 0xeeeeee);
 
     if (x > x_axis) { //greater x values mean right of the screen
       
