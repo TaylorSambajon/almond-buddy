@@ -1,5 +1,8 @@
 import { Container, Sprite, Spritesheet } from 'pixi.js';
 
+/**
+ * Character component that creates almond buddy. Includes texture changes, future additions include on-click interactions. 
+ **/
 export class Character extends Container {
     private sprite: Sprite;
     private sheet: Spritesheet;
@@ -14,6 +17,7 @@ export class Character extends Container {
         console.log("BUDDY SIZE: ", this.sprite.width, "x", this.sprite.height);
     }
 
+    /* Public to check and change almond buddy texture */
     public buddyLook(frameName: string) {
         const newTexture = this.sheet.textures[frameName];
 

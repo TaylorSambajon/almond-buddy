@@ -46,18 +46,30 @@ async function setup() {
   app.stage.hitArea = app.screen;
 
   //place overlay on top of buddy
-  const region_circle = new RegionMap();
-  const region_grid = new RegionMap();
-  app.stage.addChild(region_circle);
-  app.stage.addChild(region_grid);
+  const right_slice = new RegionMap();
+  const left_slice = new RegionMap();
+  const up_right_slice = new RegionMap();
+  const top_right_slice = new RegionMap();
+  const top_left_slice = new RegionMap();
+  const up_left_slice = new RegionMap();
+  app.stage.addChild(right_slice);
+  app.stage.addChild(up_right_slice);
+  app.stage.addChild(top_right_slice);
+  app.stage.addChild(top_left_slice);
+  app.stage.addChild(up_left_slice);
+  app.stage.addChild(left_slice);
 
   //Buddy looking math
   app.stage.on('globalpointermove', (event: FederatedPointerEvent) => {
     const { x, y } = event.global;
     
     //DRAW DA DEBUGGER
-    region_circle.drawSlice(almond.x, almond.y, 0, -20, 0xd3f0cc);
-    region_grid.drawGrid(0,0, x_axis - near, y_axis - near, 0xeeeeee);
+    right_slice.drawSlice(x_axis, y_axis, 15, -12, 0xdef0cc);
+    up_right_slice.drawSlice(x_axis, y_axis, -12, -35, 0x333333);
+    top_right_slice.drawSlice(x_axis, y_axis, -35, -90, 0x34dd55);
+    top_left_slice.drawSlice(x_axis, y_axis, -90, -145, 0x772efa);
+    up_left_slice.drawSlice(x_axis, y_axis, -145, -168, 0xee20d3);
+    left_slice.drawSlice(x_axis, y_axis, -168, -195, 0x22f84d);
 
     if (x > x_axis) { //greater x values mean right of the screen
       
