@@ -1,4 +1,4 @@
-import { Graphics } from 'pixi.js'
+import { Application, Container, Graphics } from 'pixi.js'
 
 /*
  * Creates the region map that blocks out different sections of active areas
@@ -53,4 +53,35 @@ export class RegionMap extends Graphics {
         this.stroke({width: 2, color, alpha: 0.8});
     }
 
+};
+
+export function makePieGrid(app: Application) {
+    const pie_box = new Container();
+    pie_box.label = "Debug Grid";
+
+    const x = app.screen.width / 2;
+    const y = app.screen.height / 2;
+    
+    const right_slice = new RegionMap();
+    const left_slice = new RegionMap();
+    const up_right_slice = new RegionMap();
+    const top_right_slice = new RegionMap();
+    const top_left_slice = new RegionMap();
+    const up_left_slice = new RegionMap();
+    pie_box.addChild(right_slice);
+    pie_box.addChild(up_right_slice);
+    pie_box.addChild(top_right_slice);
+    pie_box.addChild(top_left_slice);
+    pie_box.addChild(up_left_slice);
+    pie_box.addChild(left_slice);
+
+    //DRAW DA DEBUGGER
+    right_slice.drawSlice(x, y, 15, -12, 0xdef0cc);
+    up_right_slice.drawSlice(x, y, -12, -35, 0x333333);
+    top_right_slice.drawSlice(x, y, -35, -90, 0x34dd55);
+    top_left_slice.drawSlice(x, y, -90, -145, 0x772efa);
+    up_left_slice.drawSlice(x, y, -145, -168, 0xee20d3);
+    left_slice.drawSlice(x, y, -168, -195, 0x22f84d);
+
+    return pie_box;
 }

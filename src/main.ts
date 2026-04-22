@@ -4,7 +4,7 @@ import {
           FederatedPointerEvent
         } from 'pixi.js'
 import { Character } from './buddy.ts'
-import { RegionMap } from './debug.ts'
+import { makePieGrid } from './debug.ts'
 import './style.css'
 
 const app = new Application();
@@ -40,36 +40,19 @@ async function setup() {
   almond.x = x_axis;
   almond.y = y_axis;
 
+  /*DEBUGGING SECTION */
+  //Make region grid
+  const pie_grid = makePieGrid(app);
+  app.stage.addChild(pie_grid);
+
   //Buddy interaction area
   app.stage.addChild(almond);
   app.stage.eventMode = 'static';
   app.stage.hitArea = app.screen;
 
-  //place overlay on top of buddy
-  const right_slice = new RegionMap();
-  const left_slice = new RegionMap();
-  const up_right_slice = new RegionMap();
-  const top_right_slice = new RegionMap();
-  const top_left_slice = new RegionMap();
-  const up_left_slice = new RegionMap();
-  app.stage.addChild(right_slice);
-  app.stage.addChild(up_right_slice);
-  app.stage.addChild(top_right_slice);
-  app.stage.addChild(top_left_slice);
-  app.stage.addChild(up_left_slice);
-  app.stage.addChild(left_slice);
-
   //Buddy looking math
   app.stage.on('globalpointermove', (event: FederatedPointerEvent) => {
     const { x, y } = event.global;
-    
-    //DRAW DA DEBUGGER
-    right_slice.drawSlice(x_axis, y_axis, 15, -12, 0xdef0cc);
-    up_right_slice.drawSlice(x_axis, y_axis, -12, -35, 0x333333);
-    top_right_slice.drawSlice(x_axis, y_axis, -35, -90, 0x34dd55);
-    top_left_slice.drawSlice(x_axis, y_axis, -90, -145, 0x772efa);
-    up_left_slice.drawSlice(x_axis, y_axis, -145, -168, 0xee20d3);
-    left_slice.drawSlice(x_axis, y_axis, -168, -195, 0x22f84d);
 
     if (x > x_axis) { //greater x values mean right of the screen
       
