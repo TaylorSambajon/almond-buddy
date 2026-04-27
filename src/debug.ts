@@ -11,9 +11,12 @@ export class RegionMap extends Graphics {
     //draws a slice in the region map and fills it in
     public drawSlice(x: number, y: number, sDeg: number, eDeg: number, color: number){
         this.clear();
-        let degree1 = sDeg * (Math.PI / 180);
-        let degree2 = eDeg * (Math.PI / 180);
-        console.log("Da degrees in question, start:", degree1, ", end: ", degree2);
+        console.log("Da pre conversion degrees in question, start: ", sDeg, ", end ", eDeg);
+
+        let rad1 = sDeg * (Math.PI / 180);
+        let rad2 = eDeg * (Math.PI / 180);
+        console.log("Da degrees in question, start: ", sDeg, ", end ", eDeg);
+        console.log("Da radians in question, start: ", rad1, ", end: ", rad2);
 
         //begin the slice and place it at the center of the screen
         this.beginPath();
@@ -23,7 +26,7 @@ export class RegionMap extends Graphics {
         //start position to end position
         this.arc(
             x, y, 600, 
-            degree1, degree2,
+            rad1, rad2,
             true
         );
 
@@ -68,20 +71,26 @@ export function makePieGrid(app: Application) {
     const top_right_slice = new RegionMap();
     const top_left_slice = new RegionMap();
     const up_left_slice = new RegionMap();
+    const bottom_right_slice = new RegionMap();
+    const bottom_left_slice = new RegionMap();
     pie_box.addChild(right_slice);
     pie_box.addChild(up_right_slice);
     pie_box.addChild(top_right_slice);
     pie_box.addChild(top_left_slice);
     pie_box.addChild(up_left_slice);
     pie_box.addChild(left_slice);
+    pie_box.addChild(bottom_right_slice);
+    pie_box.addChild(bottom_left_slice);
 
     //DRAW DA DEBUGGER
-    right_slice.drawSlice(x, y, 15, -12, 0xdef0cc);
-    up_right_slice.drawSlice(x, y, -12, -35, 0x333333);
-    top_right_slice.drawSlice(x, y, -35, -90, 0x34dd55);
-    top_left_slice.drawSlice(x, y, -90, -145, 0x772efa);
-    up_left_slice.drawSlice(x, y, -145, -168, 0xee20d3);
-    left_slice.drawSlice(x, y, -168, -195, 0x22f84d);
+    right_slice.drawSlice(x, y, 12, 345, 0xdef0cc); // 27deg
+    up_right_slice.drawSlice(x, y, 345, 325, 0x333333); //20 degrees
+    top_right_slice.drawSlice(x, y, 325, 270, 0x34dd55); //55deg
+    top_left_slice.drawSlice(x, y, 270, 215, 0x772efa); //55deg
+    up_left_slice.drawSlice(x, y, 215, 195, 0xee20d3); //20deg
+    left_slice.drawSlice(x, y, 195, 168, 0x22f84d); //27deg
+    bottom_left_slice.drawSlice(x,y, 168, 90, 0xffffff); //78deg
+    bottom_right_slice.drawSlice(x,y,90,12,0x000000); //78deg
 
     return pie_box;
 }

@@ -104,11 +104,16 @@ export class Character extends Container {
         //For calculating angle and degrees
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
-        const angle = Math.atan2(dy, dx);
-        let degree = angle * (180 /Math.PI);
+        const rads = Math.atan2(dy, dx); //get radians
+        let degree = -1 * rads * (180/Math.PI); //convert to degrees
+        if (y > y_axis){
+            degree += 360;
+        }
+        
+        //console.log("buddyLookPie: the degree is:", degree);
 
-        //Buddy looking right
-        if (degree >= -12 && degree < 15){
+        //Buddy looking right, 30deg range
+        if (degree >= 350 || degree < 15){
             
             //How far right is buddy looking?
             if (x < x_axis + center){
@@ -121,13 +126,41 @@ export class Character extends Container {
         }
 
         //Buddy looking up right
-        if ( degree >= -35 && degree < -12){
+        if ( degree >= 15 && degree < 35){
             this.buddyMove('right_up.png');
         }
-        if (degree >= -90 && degree < -35){
+        if (degree >= 35 && degree < 90){
             this.buddyMove('right_up2.png')
         }
 
+        //Buddy looking down
+        if (degree >= 270 && degree < 350){
+            this.buddyMove('right_down.png');
+        }
+        if (degree >= 190 && degree < 270){
+            this.buddyMove('left_down.png');
+        }
+
+        //Buddy looking left
+        if (degree >= 165 && degree < 190){
+
+            //How far left is buddy looking?
+            if (x > x_axis - center){
+                    this.buddyMove('left0.png');
+                } else if (x > x_axis - (near*1.5)){
+                    this.buddyMove('left1.png');
+                } else {
+                    this.buddyMove('left2.png');
+                };
+        }
+
+        //Buddy looking up left
+        if (degree >= 90 && degree < 145){
+            this.buddyMove('left_up2.png');
+        }
+        if (degree >= 145 && degree < 165){
+            this.buddyMove('left_up.png');
+        }
         
     };
 };

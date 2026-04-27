@@ -49,7 +49,7 @@ async function setup() {
   app.stage.addChild(pie_grid);
   
   app.stage.on('globalpointermove', (event) => {
-    almond.buddyLookSquare(app, event.global);
+    almond.buddyLookPie(app, event.global);
 
   });
 }
