@@ -39,6 +39,7 @@ async function setup() {
   //Make region grid. This grid draws a semi transparent, pie shaped "grid" that shows
   //the regions that the mouse must be in for Almond Buddy to look in that direction.
   const pie_grid = makePieGrid(app);
+  pie_grid.eventMode = 'none';
 
   //Buddy interaction area
   app.stage.eventMode = 'static';
@@ -46,7 +47,7 @@ async function setup() {
 
   //Staging Elements
   app.stage.addChild(almond);
-  app.stage.addChild(pie_grid);
+  //app.stage.addChild(pie_grid);
   
   app.stage.on('globalpointermove', (event) => {
     almond.buddyLookPie(app, event.global);
