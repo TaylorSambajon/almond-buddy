@@ -112,55 +112,85 @@ export class Character extends Container {
         
         //console.log("buddyLookPie: the degree is:", degree);
 
-        //Buddy looking right, 30deg range
-        if (degree >= 350 || degree < 15){
-            
+        let box_bounds = center / 2;
+
+        /*
+            BUG: If looking down while in box bounds and moving horizontally to right or left
+            slice of pie, buddy will still look down instead of looking left or right.
+         */
+
+        //Downward slices
+        if (degree >= 270 && degree < 350){ //Right
+            if (y < y_axis + box_bounds){
+                this.buddyMove('right0.png');
+            } else {
+                this.buddyMove('right_down.png');
+            }
+        }
+        if (degree >= 190 && degree < 270){ //Left
+            if (y < y_axis + box_bounds){
+                this.buddyMove('left0.png');
+            } else {
+                this.buddyMove('left_down.png');
+            }
+        }
+
+        //Middle slices
+        if (degree >= 350 || degree < 15){ //Right
+                    
             //How far right is buddy looking?
             if (x < x_axis + center){
-                    this.buddyMove('right0.png');
-                } else if (x < x_axis + (near*1.5)){
-                    this.buddyMove('right1.png');
-                } else {
-                    this.buddyMove('right2.png');
-                };
+                this.buddyMove('right0.png');
+            } else if (x < x_axis + (near*1.5)){
+                this.buddyMove('right1.png');
+            } else {
+                this.buddyMove('right2.png');
+            };
         }
-
-        //Buddy looking up right
-        if ( degree >= 15 && degree < 35){
-            this.buddyMove('right_up.png');
-        }
-        if (degree >= 35 && degree < 90){
-            this.buddyMove('right_up2.png')
-        }
-
-        //Buddy looking down
-        if (degree >= 270 && degree < 350){
-            this.buddyMove('right_down.png');
-        }
-        if (degree >= 190 && degree < 270){
-            this.buddyMove('left_down.png');
-        }
-
-        //Buddy looking left
-        if (degree >= 165 && degree < 190){
+        if (degree >= 165 && degree < 190){ //Left
 
             //How far left is buddy looking?
             if (x > x_axis - center){
-                    this.buddyMove('left0.png');
-                } else if (x > x_axis - (near*1.5)){
-                    this.buddyMove('left1.png');
-                } else {
-                    this.buddyMove('left2.png');
-                };
+                this.buddyMove('left0.png');
+            } else if (x > x_axis - (near*1.5)){
+                this.buddyMove('left1.png');
+            } else {
+                this.buddyMove('left2.png');
+            };
+            
+        };        
+
+        //Upward slices
+        if ( degree >= 15 && degree < 35){ //Right Up
+            if (y > y_axis - box_bounds){
+                this.buddyMove('right0.png');
+            } else {
+                this.buddyMove('right_up.png');
+            }
+        }
+        if (degree >= 35 && degree < 90){ //Top Right
+            if(y > y_axis - box_bounds){
+                this.buddyMove('right0.png');
+            } else {
+                this.buddyMove('right_up2.png')
+            }
         }
 
         //Buddy looking up left
-        if (degree >= 90 && degree < 145){
-            this.buddyMove('left_up2.png');
+        if (degree >= 90 && degree < 145){ //Top Left
+            if (y > y_axis - box_bounds){
+                this.buddyMove('left0.png');
+            } else {
+                this.buddyMove('left_up2.png');
+            }
         }
-        if (degree >= 145 && degree < 165){
-            this.buddyMove('left_up.png');
+        if (degree >= 145 && degree < 165){ //Left Up
+            if (y > y_axis - box_bounds){
+                this.buddyMove('left0.png');
+            } else {
+                this.buddyMove('left_up.png');
+            }
         }
-        
+    
     };
 };
