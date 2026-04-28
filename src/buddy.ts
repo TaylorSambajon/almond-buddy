@@ -5,6 +5,7 @@ import { Application, Container, Point, Sprite, Spritesheet } from 'pixi.js';
  **/
 export class Character extends Container {
     private sprite: Sprite;
+    private isGrr: boolean = false;
     private sheet: Spritesheet;
     
     constructor(sheet: Spritesheet) {
@@ -12,9 +13,22 @@ export class Character extends Container {
 
         this.sprite = new Sprite(sheet.textures['left0.png']);
         this.sheet = sheet;
+        this.sprite.eventMode = 'static';
+        this.sprite.cursor = 'pointer';
+        this.sprite.on('pointerdown', () => this.buddyGrr());
         this.addChild(this.sprite);
 
         console.log("BUDDY SIZE: ", this.sprite.width, "x", this.sprite.height);
+    }
+
+    private buddyGrr(){
+        if (this.isGrr) return;
+        this.isGrr = true;
+        this.buddyMove('right_down.png');
+
+        setTimeout(() => { //make buddy scowl for 1 second
+            this.isGrr = false;
+        }, 1000);
     }
 
     /* Public to check and change this buddy texture */
@@ -114,10 +128,12 @@ export class Character extends Container {
 
         let box_bounds = center / 2;
 
-        /*
-            BUG: If looking down while in box bounds and moving horizontally to right or left
-            slice of pie, buddy will still look down instead of looking left or right.
-         */
+        /*************************
+            BEGIN LOOKING LOGIC
+        **************************/
+
+        if (this.isGrr) //No moving while buddy is angry
+            return;
 
         //Downward slices
         if (degree >= 270 && degree < 350){ //Right
@@ -193,4 +209,5 @@ export class Character extends Container {
         }
     
     };
+
 };
