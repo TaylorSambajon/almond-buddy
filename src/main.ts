@@ -3,7 +3,7 @@ import {
           Application,
         } from 'pixi.js'
 import { Character } from './buddy.ts'
-import { makePieGrid } from './debug.ts'
+import { makePieGrid, makeBuddySpace } from './debug.ts'
 import './style.css'
 
 const app = new Application();
@@ -36,10 +36,15 @@ async function setup() {
   almond.y = center_y;
 
   /*DEBUGGING SECTION */
+
   //Make region grid. This grid draws a semi transparent, pie shaped "grid" that shows
   //the regions that the mouse must be in for Almond Buddy to look in that direction.
   const pie_grid = makePieGrid(app);
   pie_grid.eventMode = 'none';
+
+  //Make hitbox. Helps to determine where buddy is clickable.
+  const buddyBox = makeBuddySpace(center_x + 10, center_y + 15, 120, 65);
+  buddyBox.eventMode = 'none';
 
   //Buddy interaction area
   app.stage.eventMode = 'static';
@@ -47,6 +52,7 @@ async function setup() {
 
   //Staging Elements
   app.stage.addChild(almond);
+  //app.stage.addChild(buddyBox);
   //app.stage.addChild(pie_grid);
   
   app.stage.on('globalpointermove', (event) => {

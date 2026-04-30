@@ -8,7 +8,7 @@ export class RegionMap extends Graphics {
         super();
     }
 
-    //draws a slice in the region map and fills it in
+    //Draws a semi-transparent pie slice
     public drawSlice(x: number, y: number, sDeg: number, eDeg: number, color: number){
         this.clear();
         console.log("Da pre conversion degrees in question, start: ", sDeg, ", end ", eDeg);
@@ -41,19 +41,14 @@ export class RegionMap extends Graphics {
 
     }
 
-    public drawGrid(startX: number, startY: number, endX: number, endY: number, color: number){
+    public drawHitBox(x: number, y: number, width: number, height: number, color: number){
         this.clear();
+        console.log("Drawing Buddy Space (hitbox), width:", width," height:",height);
 
-        this.beginPath();
-
-        //DRAW BOX
-        this.moveTo(startX,startY);
-        this.lineTo(startX, endY);
-        this.lineTo(endX, endY);
-        this.lineTo(endX,startY);
-
-        this.fill({color, alpha: 0.4});
-        this.stroke({width: 2, color, alpha: 0.8});
+        this.ellipse(x, y, width, height);
+        this.fill({color, alpha: 0.2});
+        this.circle(x - 3,y + 5,10);
+        this.fill(color);
     }
 
 };
@@ -93,4 +88,16 @@ export function makePieGrid(app: Application) {
     bottom_right_slice.drawSlice(x,y,90,12,0x000000); //78deg
 
     return pie_box;
+}
+
+export function makeBuddySpace(x: number, y: number, width: number, height: number){
+    const hitBox = new Container();
+    hitBox.label = 'BuddySpace';
+    const buddySpace = new RegionMap();
+
+    hitBox.addChild(buddySpace);
+
+    buddySpace.drawHitBox(x, y, width, height, 0xa8325c);
+
+    return hitBox;
 }

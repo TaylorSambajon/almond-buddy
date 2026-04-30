@@ -1,4 +1,4 @@
-import { Application, Container, Point, Sprite, Spritesheet } from 'pixi.js';
+import { Application, Container, Ellipse, Point, Sprite, Spritesheet } from 'pixi.js';
 
 /**
  * Character component that creates this buddy. Includes texture changes, future additions include on-click interactions. 
@@ -14,6 +14,7 @@ export class Character extends Container {
         this.sprite = new Sprite(sheet.textures['left0.png']);
         this.sheet = sheet;
         this.sprite.eventMode = 'static';
+        this.sprite.hitArea = new Ellipse(10,18, 240, 130);
         this.sprite.cursor = 'pointer';
         this.sprite.on('pointerdown', () => this.buddyGrr());
         this.addChild(this.sprite);
