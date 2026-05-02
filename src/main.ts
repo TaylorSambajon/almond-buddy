@@ -3,7 +3,9 @@ import {
           Application,
         } from 'pixi.js'
 import { Character } from './buddy.ts'
+//import { makeMenu } from './menu.ts'
 import { makePieGrid, makeBuddySpace } from './debug.ts'
+
 import './style.css'
 
 const app = new Application();
@@ -35,8 +37,20 @@ async function setup() {
   almond.x = center_x;
   almond.y = center_y;
 
-  /*DEBUGGING SECTION */
+  //Buddy interaction area
+  app.stage.eventMode = 'static';
+  app.stage.hitArea = app.screen;
 
+  //Create the menu
+  //const menu = makeMenu(center_x, center_y, 0xfff7a3);
+  //menu.eventMode = 'static';
+
+  //Staging Elements
+  app.stage.addChild(almond);
+  //app.stage.addChild(menu);
+
+  /*DEBUGGING SECTION 
+  *
   //Make region grid. This grid draws a semi transparent, pie shaped "grid" that shows
   //the regions that the mouse must be in for Almond Buddy to look in that direction.
   const pie_grid = makePieGrid(app);
@@ -45,20 +59,17 @@ async function setup() {
   //Make hitbox. Helps to determine where buddy is clickable.
   const buddyBox = makeBuddySpace(center_x + 10, center_y + 15, 120, 65);
   buddyBox.eventMode = 'none';
-
-  //Buddy interaction area
-  app.stage.eventMode = 'static';
-  app.stage.hitArea = app.screen;
-
-  //Staging Elements
-  app.stage.addChild(almond);
-  //app.stage.addChild(buddyBox);
-  //app.stage.addChild(pie_grid);
+  
+  app.stage.addChild(buddyBox);
+  app.stage.addChild(pie_grid);
+  *
+  *END DEBUGGING SECTION*/
   
   app.stage.on('globalpointermove', (event) => {
     almond.buddyLookPie(app, event.global);
 
   });
+    //INCLUDE TEXT BOX GREETING VIEWER
 }
 
 setup();
