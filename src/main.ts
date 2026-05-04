@@ -3,7 +3,7 @@ import {
           Application,
         } from 'pixi.js'
 import { Character } from './buddy.ts'
-//import { makeMenu } from './menu.ts'
+import { MenuBar } from './menu.ts'
 import { makePieGrid, makeBuddySpace } from './debug.ts'
 
 import './style.css'
@@ -23,14 +23,20 @@ async function setup() {
 
   document.body.appendChild(app.canvas);
 
-  //load almond buddy json and atlas map
-  const daSheet = await Assets.load('/assets/buddy-sheet.json');
-  console.log("LOADED: ", daSheet);
-
-  //create buddy
-  const almond = new Character(daSheet);
+  //Get canvas positioning info
   const center_x = app.screen.width / 2;
   const center_y = app.screen.height / 2;
+
+  //Load textures
+  const daSheet = await Assets.load('/assets/buddy-sheet.json');
+  console.log("LOADED: ", daSheet);
+  //const daMenu = await Assets.load('/assets/menu-sheet.json');
+  //console.log("LOADED: ", daMenu);
+
+  
+  //create buddy
+  const almond = new Character(daSheet);
+
 
   //Buddy positioning
   almond.scale.set(0.5);
@@ -67,6 +73,7 @@ async function setup() {
   
   app.stage.on('globalpointermove', (event) => {
     almond.buddyLookPie(app, event.global);
+    //place menu using summonMenu
 
   });
     //INCLUDE TEXT BOX GREETING VIEWER
